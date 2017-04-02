@@ -2,33 +2,37 @@ package cine;
 
 public class Sesion {
 	private String hora;
-	// hora de la sesión en formato HH:MM
+	// hora de la sesiÃ³n en formato HH:MM
 	private int asientosDisponibles;
-	//es un entero que indica el número de asientos disponibles en la propia sesión
+	//es una matriz de enteros con las mismas dimensiones que la sala asociada a la propia sesiÃ³n, en la que se representan las butacas compradas y las disponibles para la propia sesiÃ³n. 
+	//Si una butaca en la posiciÃ³n (i, j) estÃ¡ disponible, se guarda un valor 0, y en caso contrario, se guarda el identificador de venta asociado a la butaca. Como en una venta se puede comprar mÃ¡s de una butaca, 
+	//podrÃ­a suceder que en la matriz haya varios identificadores de ventas iguales en posiciones contiguas. 
 	private int sigIdCompra;
-	//es un entero que se incrementa cada vez que se realiza una venta de entradas para la propia sesión. Se utiliza para generar identificadores de venta diferentes para cada compra
+	//es un entero que indica el nÃºmero de asientos disponibles en la propia sesiÃ³n
 	private int [][] estadoAsientos;
-	//es una matriz de enteros con las mismas dimensiones que la sala asociada a la propia sesión, en la que se representan las butacas compradas y las disponibles para la propia sesión. 
-	//Si una butaca en la posición (i, j) está disponible, se guarda un valor 0, y en caso contrario, se guarda el identificador de venta asociado a la butaca. Como en una venta se puede comprar más de una butaca, 
-	//podría suceder que en la matriz haya varios identificadores de ventas iguales en posiciones contiguas. 
-
+	//es un entero que se incrementa cada vez que se realiza una venta de entradas para la propia sesiÃ³n. Se utiliza para generar identificadores de venta diferentes para cada compra. 
 	
 	public Sesion (String hora, int fila, int columnas){
-	//constructor de la clase Sesion que recibe como argumentos la hora de proyección, y el número de filas y columnas de la sala asociada a la propia sesión. Con estos argumentos, 
-	//inicializa los atributos del objeto. El atributo sigIdComprase inicializa a 1. 
+	//constructor de la clase Sesion que recibe como argumentos la hora de proyecciÃ³n, y el nÃºmero de filas y columnas de la sala asociada a la propia sesiÃ³n. Con estos argumentos, 
+	//inicializa los atributos del objeto. El atributo sigIdComprase inicializa a 1.
+		
+		/*public Sesion(String hora, int fila, int columnas) {
+		this.estadoAsientos = new int[fila][columnas];
 		this.hora = hora;
-		this.estadoAsientos = new int [fila][columnas];
-		this.asientosDisponibles = fila * columnas;
-		this.sigIdCompra = 1;
+		this.sigIdCompra = 1;*/
+	}
+		this.hora = hora;
 	}
 	
 	public String getHora(){
-		//método que devuelve la hora asociada a la propia sesión
+		//mÃ©todo que devuelve la hora asociada a la propia sesiÃ³n
 		return this.hora;
 	}
 	
 	public boolean equals(Sesion obj){
-		//método que compara el objeto de tipo Sesion dado con la propia sesión, y devuelve cierto si son iguales y falso en caso contrario. Se considera que dos sesiones son iguales si son iguales sus atributos hora.  
+		
+		//mÃ©todo que compara el objeto de tipo Sesion dado con la propia sesiÃ³n, y devuelve cierto si son iguales y falso en caso contrario. Se considera que dos sesiones son iguales si son iguales sus atributos hora.  
+		//	return sesion2.getHora() == this.hora;
 		if(this.hora.equals(obj.getHora())){
 			return true;
 		}else{
@@ -37,23 +41,22 @@ public class Sesion {
 	}
 	
 	public void comprarEntrada(int fila, int columna){
-	//método que compra una entrada con la fila y columna dadas para la propia sesión. Para registrar la venta, se guarda el valor actual del atributo sigIdCompra en la posición 
-	//(fila-1, columna-1) del atributo estadoAsientos. A continuación, se incrementa en uno el atributo sigIdCompra.
+	//mÃ©todo que compra una entrada con la fila y columna dadas para la propia sesiÃ³n. Para registrar la venta, se guarda el valor actual del atributo sigIdCompra en la posiciÃ³n 
+	//(fila-1, columna-1) del atributo estadoAsientos. A continuaciÃ³n, se incrementa en uno el atributo sigIdCompra.
 		this.estadoAsientos[fila - 1][columna - 1]= sigIdCompra;
-		this.sigIdCompra += 1;
-		this.asientosDisponibles -= 1;
+		sigIdCompra += 1;
 	}
 	
 	public int getIdEntrada(int fila, int columna){
-	// método que devuelve el identificador de venta para una entrada en la propia sesión especificada mediante su fila y columna. El identificador que se devuelve se toma de la posición 
+	// mÃ©todo que devuelve el identificador de venta para una entrada en la propia sesiÃ³n especificada mediante su fila y columna. El identificador que se devuelve se toma de la posiciÃ³n 
 	//(fila-1, columna-1) del atributo estadoAsientos
 		return this.estadoAsientos[fila - 1][columna - 1];
 	}
 	
 	public char [][] getEstadoSesion(){
-	//método que devuelve una matriz de caracteres en la que se representa el estado de ocupación de la propia sesión. La matriz resultado tiene el mismo número de filas y columnas que la sala asociada
-	//a la propia sesión, y en cada posición (i, j) de la matriz debe aparecer un carácter ‘#’ si la butaca ha sido comprada, y un carácter ‘O’ (O mayúscula) si la butaca está disponible. En la figura 2 se puede 
-	//observar un ejemplo de una matriz de caracteres que refleja el estado de ocupación de una sala en una sesión
+	//mÃ©todo que devuelve una matriz de caracteres en la que se representa el estado de ocupaciÃ³n de la propia sesiÃ³n. La matriz resultado tiene el mismo nÃºmero de filas y columnas que la sala asociada
+	//a la propia sesiÃ³n, y en cada posiciÃ³n (i, j) de la matriz debe aparecer un carÃ¡cter â€˜#â€™ si la butaca ha sido comprada, y un carÃ¡cter â€˜Oâ€™ (O mayÃºscula) si la butaca estÃ¡ disponible. En la figura 2 se puede 
+	//observar un ejemplo de una matriz de caracteres que refleja el estado de ocupaciÃ³n de una sala en una sesiÃ³n
 		char res [][] = new char[this.estadoAsientos.length][this.estadoAsientos[0].length];
 		for(int i= 0; i<this.estadoAsientos.length; i++){
 			for (int j = 0; j< this.estadoAsientos[i].length;j++){
@@ -68,11 +71,7 @@ public class Sesion {
 	}
 	
 	public int getButacasDisponiblesSesion(){
-	//método que devuelve el número de butacas disponibles en la propia sesión.
-		//OPCION 1: Para esta opción hace falta añadir <-- this.asientosDisponibles -= 1; --> en comprarEntrada, pero no viene en el pdf.
-		//return this.asientosDisponibles;
-		
-		//OPCION 2
+	//mÃ©todo que devuelve el nÃºmero de butacas disponibles en la propia sesiÃ³n.
 		int res = 0;
 		char estadoSesion [][] = getEstadoSesion();
 		for(int i= 0; i<this.estadoAsientos.length; i++){
@@ -86,38 +85,22 @@ public class Sesion {
 	}
 	
 	public String recogerEntradas(int id){
-	//método que devuelve las N entradas asociadas a un identificador de venta dado para la propia sesión. Las N entradas se devolverán dentro de un String con el siguiente formato: 
-	//“hora_de_la_sesión+fila1,columna1+fila2,columna2+ … +filaN,columnaN+” Si el identificador de venta dado no existe en la propia sesión, se devuelve null.
-		String res = this.getHora() + "+";
-		boolean bool = false;
-		for(int i= 0; i<this.estadoAsientos.length; i++){
-			for (int j = 0; j< this.estadoAsientos[i].length;j++){
-				if(this.estadoAsientos[i][j] == id){
-					bool = true;
-					res += i + "," + j + "+";
-				}
-			}
-		}
-		if(!bool){
-			return null;
-		}else{
-			return res;
-		}
+	//mÃ©todo que devuelve las N entradas asociadas a un identificador de venta dado para la propia sesiÃ³n. Las N entradas se devolverÃ¡n dentro de un String con el siguiente formato: 
+	//â€œhora_de_la_sesiÃ³n+fila1,columna1+fila2,columna2+ â€¦ +filaN,columnaN+â€ Si el identificador de venta dado no existe en la propia sesiÃ³n, se devuelve null.
+		String res = this.getHora();
 	}
 	
-	public ButacasContiguas recomendarButacasContiguas(int noButacas){
-	// método que dados un número N de butacas, devuelve un objeto de tipo ButacasContiguas que contiene la fila y la columna de la butaca recomendaba con menor número de columna, y el número de butacas solicitadas. 
+	public recomendarButacasContiguas(){
+	// mÃ©todo que dados un nÃºmero N de butacas, devuelve un objeto de tipo ButacasContiguas que contiene la fila y la columna de la butaca recomendaba con menor nÃºmero de columna, y el nÃºmero de butacas solicitadas. 
 	//El algoritmo para obtener las butacas recomendadas es el siguiente: 1. Se buscan las primeras N butacas contiguas libres empezando por la fila (N_FILAS+1)/2+1 y acabando en la fila N_FILAS. Cada fila se recorre 
 	//empezando por la columna N_COLUMNAS y acabando en la columna 1. 2. Si en el paso anterior no se encuentran N butacas contiguas libres, se buscan las primeras N butacas contiguas libres empezando por la fila 
-	//(N_FILAS+1)/2 y acabando en la fila 1. Cada fila se recorre empezando por la columna N_COLUMNAS y acabando en la columna 1. Si no existen N butacas libres contiguas en la sala para la propia sesión, se devuelve null.
-	//Por ejemplo, si tomamos la sala de la figura 2 y buscamos 3 butacas contiguas libres, este algoritmo devolverá las butacas (4, 3), (4, 4) y (4, 5).
-		ButacasContiguas recomendadas = new ButacasContiguas(1,2,3);
-		return recomendadas;
+	//(N_FILAS+1)/2 y acabando en la fila 1. Cada fila se recorre empezando por la columna N_COLUMNAS y acabando en la columna 1. Si no existen N butacas libres contiguas en la sala para la propia sesiÃ³n, se devuelve null.
+	//Por ejemplo, si tomamos la sala de la figura 2 y buscamos 3 butacas contiguas libres, este algoritmo devolverÃ¡ las butacas (4, 3), (4, 4) y (4, 5). 
 	}
 	
 	public void comprarEntradasRecomendadas(ButacasContiguas butacas){
-	//método que dado un objeto de tipo ButacasContiguas, registra la compra en la propia sesión guardando el valor actual del atributo sigIdCompra en las posiciones especificadas por el objeto dado como argumento. 
-	//A continuación, se incrementa en uno el atributo sigIdCompra. 
+	//mÃ©todo que dado un objeto de tipo ButacasContiguas, registra la compra en la propia sesiÃ³n guardando el valor actual del atributo sigIdCompra en las posiciones especificadas por el objeto dado como argumento. 
+	//A continuaciÃ³n, se incrementa en uno el atributo sigIdCompra. 
 	}
 	
 	
